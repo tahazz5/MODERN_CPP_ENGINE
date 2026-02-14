@@ -6,10 +6,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Engine library
-
 file(GLOB_RECURSE ENGINE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
+list(FILTER ENGINE_SOURCES EXCLUDE REGEX ".*/main\\.cpp$")
+
 add_library(ModernCppEngine STATIC ${ENGINE_SOURCES})
 
 target_include_directories(ModernCppEngine
@@ -17,8 +18,9 @@ target_include_directories(ModernCppEngine
            $<INSTALL_INTERFACE:include>
 )
 
-# Users can add additional source files in subdirectories; they're already
-# picked up by the glob above.
+# Sample application
+add_executable(ModernCppEngineApp src/main.cpp)
+target_link_libraries(ModernCppEngineApp PRIVATE ModernCppEngine)
 
 # Tests
 enable_testing()
