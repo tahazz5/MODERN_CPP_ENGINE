@@ -34,6 +34,16 @@ public:
         return components_.get<Component>(e.id);
     }
 
+    // iterate over every entity that has Component attached and is alive
+    template<typename Component, typename Func>
+    void forEach(Func f) {
+        components_.template forEach<Component>([&](EntityID id, Component& comp) {
+            if (id < alive_.size() && alive_[id]) {
+                f(Entity{id}, comp);
+            }
+        });
+    }
+
 private:
     EntityID nextId_ = 0;
     std::queue<EntityID> freeIds_;

@@ -33,6 +33,15 @@ public:
         return storage->components.get(id);
     }
 
+    template<typename Component, typename Func>
+    void forEach(Func f) {
+        if (auto* storage = getIfExists<Component>()) {
+            storage->components.forEach([&](EntityID id, Component& comp) {
+                f(id, comp);
+            });
+        }
+    }
+
 private:
     struct IStorage {
         virtual ~IStorage() = default;

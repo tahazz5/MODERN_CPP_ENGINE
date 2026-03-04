@@ -67,6 +67,15 @@ public:
         return dense_.size();
     }
 
+    // iterate over all stored elements calling f(id, value)
+    template<typename Func>
+    void forEach(Func f) {
+        const std::size_t count = dense_.size();
+        for (std::size_t i = 0; i < count; ++i) {
+            f(entities_[i], dense_[i]);
+        }
+    }
+
 private:
     static constexpr std::uint32_t invalidIndex() {
         return std::numeric_limits<std::uint32_t>::max();
