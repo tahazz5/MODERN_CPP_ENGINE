@@ -23,7 +23,7 @@ public:
 
     template<typename Component>
     void removeComponent(Entity e) {
-        components_.remove<Component>(e.id);
+        if (isAlive(e)) components_.remove<Component>(e.id);
     }
 
     template<typename Component>
@@ -39,7 +39,7 @@ public:
     void forEach(Func f) {
         components_.template forEach<Component>([&](EntityID id, Component& comp) {
             if (id < alive_.size() && alive_[id]) {
-                f(Entity{id}, comp);
+                f(Entity{id, generations_[id]}, comp);
             }
         });
     }
@@ -48,6 +48,7 @@ private:
     EntityID nextId_ = 0;
     std::queue<EntityID> freeIds_;
     std::vector<bool> alive_;
+    std::vector<std::uint64_t> generations_;
     ComponentStorage components_;
 };
 

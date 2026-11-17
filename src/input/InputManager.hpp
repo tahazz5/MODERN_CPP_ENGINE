@@ -1,25 +1,28 @@
-#ifndef INPUTMANAGER_HPP
-#define INPUTMANAGER_HPP
+#pragma once
 
-#include <unordered_map>
-#include <GLFW/glfw3.h>
+#include <unordered_set>
 
+namespace engine {
+
+// Platform-independent state; a window or terminal backend supplies events.
 class InputManager {
 public:
-    InputManager();
-    ~InputManager();
-
     void init();
-    void update();
-
-    bool isKeyPressed(int key);
-    bool isMouseButtonPressed(int button);
-    void getMousePosition(double &x, double &y);
-
+    void update(); // Begin a frame before supplying events.
+    void keyPress(int key);
+    void keyRelease(int key);
+    bool isKeyPressed(int key) const;
+    bool wasKeyPressed(int key) const;
+    bool wasKeyReleased(int key) const;
+    void mouseButtonPress(int button);
+    void mouseButtonRelease(int button);
+    bool isMouseButtonPressed(int button) const;
+    void setMousePosition(double x, double y);
+    void getMousePosition(double& x, double& y) const;
 private:
-    std::unordered_map<int, bool> keyStates;
-    std::unordered_map<int, bool> mouseButtonStates;
-    double mouseX, mouseY;
+    std::unordered_set<int> keys_, pressed_, released_, buttons_;
+    double mouseX_ = 0, mouseY_ = 0;
 };
+}
 
-#endif // INPUTMANAGER_HPP
+using InputManager = engine::InputManager;

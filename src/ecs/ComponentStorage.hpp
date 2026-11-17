@@ -42,14 +42,20 @@ public:
         }
     }
 
+    void removeAll(EntityID id) {
+        for (auto& [type, storage] : storages_) storage->remove(id);
+    }
+
 private:
     struct IStorage {
         virtual ~IStorage() = default;
+        virtual void remove(EntityID id) = 0;
     };
 
     template<typename Component>
     struct Storage final : IStorage {
         SparseSet<Component> components;
+        void remove(EntityID id) override { components.remove(id); }
     };
 
     template<typename Component>

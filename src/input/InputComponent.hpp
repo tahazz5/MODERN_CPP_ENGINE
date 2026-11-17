@@ -1,21 +1,15 @@
-// InputComponent.hpp
-#ifndef INPUT_COMPONENT_HPP
-#define INPUT_COMPONENT_HPP
-
+#pragma once
 #include <string>
-#include <unordered_map>
+#include <unordered_set>
 
+namespace engine {
 class InputComponent {
 public:
-    InputComponent();
-    ~InputComponent();
-
-    void keyPress(const std::string& key);
-    void keyRelease(const std::string& key);
-    bool isKeyPressed(const std::string& key);
-
+    void keyPress(const std::string& key) { keys_.insert(key); }
+    void keyRelease(const std::string& key) { keys_.erase(key); }
+    bool isKeyPressed(const std::string& key) const { return keys_.contains(key); }
 private:
-    std::unordered_map<std::string, bool> keyStates;
+    std::unordered_set<std::string> keys_;
 };
-
-#endif // INPUT_COMPONENT_HPP
+}
+using InputComponent = engine::InputComponent;

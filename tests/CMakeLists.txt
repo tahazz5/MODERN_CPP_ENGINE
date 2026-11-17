@@ -11,3 +11,7 @@ target_link_libraries(RenderingTests PRIVATE ModernCppEngine)
 add_test(NAME MemPoolTests COMMAND MemPoolTests)
 add_test(NAME ECSTests COMMAND ECSTests)
 add_test(NAME RenderingTests COMMAND RenderingTests)
+
+add_executable(RegressionTests RegressionTests.cpp)
+target_link_libraries(RegressionTests PRIVATE ModernCppEngine)
+add_test(NAME RegressionTests COMMAND RegressionTests)

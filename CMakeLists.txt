@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Engine library
-file(GLOB_RECURSE ENGINE_SOURCES
+file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 list(FILTER ENGINE_SOURCES EXCLUDE REGEX ".*/main\\.cpp$")
@@ -23,5 +23,8 @@ add_executable(ModernCppEngineApp src/main.cpp)
 target_link_libraries(ModernCppEngineApp PRIVATE ModernCppEngine)
 
 # Tests
-enable_testing()
-add_subdirectory(tests)
+include(CTest)
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+    add_test(NAME DemoSmoke COMMAND ModernCppEngineApp)
+endif()

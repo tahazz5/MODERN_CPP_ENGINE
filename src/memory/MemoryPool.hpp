@@ -7,8 +7,9 @@ namespace engine {
 
 class MemoryPool {
 public:
-    explicit MemoryPool(std::size_t elementSize, std::size_t capacity);
-    ~MemoryPool() = default;
+    explicit MemoryPool(std::size_t elementSize, std::size_t capacity,
+                        std::size_t alignment = alignof(std::max_align_t));
+    ~MemoryPool();
 
     MemoryPool(const MemoryPool&) = delete;
     MemoryPool& operator=(const MemoryPool&) = delete;
@@ -31,7 +32,9 @@ private:
     std::size_t slotSize_;
     std::size_t capacity_;
     std::size_t used_;
-    std::vector<std::byte> storage_;
+    std::size_t alignment_;
+    std::byte* storage_;
+    std::vector<bool> allocated_;
     FreeNode* freeList_;
 
     bool ownsPointer(void* ptr) const noexcept;

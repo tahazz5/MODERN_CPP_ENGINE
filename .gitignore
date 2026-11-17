@@ -12,3 +12,10 @@ Makefile
 
 # Visual Studio Code
 .vscode/
+
+# Local environment and credentials
+.env
+.env.*
+*.env
+.envrc
+.aws/
